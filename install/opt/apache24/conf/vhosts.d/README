@@ -1,0 +1,16 @@
+Configuration files for VirtualHosts.
+
+Files named  ***.conf  will be loaded.
+
+Apache 2.4 Varnished CHROOTED PHP-FPM WordPress Virtual Host
+Andrew Bevitt <me@andrewbevitt.com>
+http://andrewbevitt.com/tutorials/apache-varnish-chrooted-php-fpm-wordpress-virtual-host/
+
+The virtual host configuration script provided with the tutorial
+creates symlinks in this directory that point to the actual files
+inside the users chrooted home.
+
+The 000_default.conf file creates a default virtual host for all
+requests that do not match any known hosts. This points to a 
+simple document root that simply says "site not here".
+

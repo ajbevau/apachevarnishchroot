@@ -1,0 +1,28 @@
+### htcacheclean settings ###
+
+## run htcacheclean: yes, no
+## yes means you have enabled the disk_cache module in 
+##   /opt/apache24/conf/modules.d/modules.load
+## default: no
+HTCACHECLEAN_RUN=no
+
+## run mode: cron, daemon
+## run in daemon mode or as daily cron job
+## default: daemon
+HTCACHECLEAN_MODE=daemon
+
+## cache size 
+HTCACHECLEAN_SIZE=300M
+
+## interval: if in daemon mode, clean cache every x minutes
+HTCACHECLEAN_DAEMON_INTERVAL=120
+
+## path to cache
+## must be the same as in CacheRoot directive
+HTCACHECLEAN_PATH=/var/cache/apache24/mod_disk_cache
+
+## additional options:
+## -n : be nice
+## -t : remove empty directories
+HTCACHECLEAN_OPTIONS="-n"
+

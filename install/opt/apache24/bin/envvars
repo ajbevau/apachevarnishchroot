@@ -1,0 +1,50 @@
+# 
+# Apache 2.4 Varnished CHROOTED PHP-FPM WordPress Virtual Host
+# Andrew Bevitt <me@andrewbevitt.com>
+# http://andrewbevitt.com/tutorials/apache-varnish-chrooted-php-fpm-wordpress-virtual-host/
+#
+# These are designed to be used with the initscript provided at the 
+# above tutorial. If you are using a different initscript then you
+# may need to change these variables.
+#
+# Most of this file is borrowed / derived from the default envvar
+# in /opt/apache24/bin and the Ubuntu Apache 2.2 installed file.
+#
+
+# Add our custom library paths so libs can be found
+if test "x$LD_LIBRARY_PATH" != "x" ; then
+  LD_LIBRARY_PATH="/opt/apache24/lib:$LD_LIBRARY_PATH"
+else
+  LD_LIBRARY_PATH="/opt/apache24/lib"
+fi
+export LD_LIBRARY_PATH
+
+# This won't be correct after changing uid
+unset HOME
+
+# Since there is no sane way to get the parsed apache2 config in scripts, some
+# settings are defined via environment variables and then used in apache2ctl,
+# /etc/init.d/apache24, /etc/logrotate.d/apache24, etc.
+export APACHE_RUN_USER=www-data
+export APACHE_RUN_GROUP=www-data
+export APACHE_PID_FILE=/var/run/apache24.pid
+export APACHE_RUN_DIR=/var/run/apache24
+export APACHE_LOCK_DIR=/var/lock/apache24
+# Only /var/log/apache24 is handled by /etc/logrotate.d/apache24.
+export APACHE_LOG_DIR=/var/log/apache24
+
+## The locale used by some modules like mod_dav
+export LANG=C
+## Uncomment the following line to use the system default locale instead:
+#. /etc/default/locale
+
+export LANG
+
+## The command to get the status for 'apache2ctl status'.
+## Some packages providing 'www-browser' need '--dump' instead of '-dump'.
+#export APACHE_LYNX='www-browser -dump'
+
+## If you need a higher file descriptor limit, uncomment and adjust the
+## following line (default is 8192):
+#APACHE_ULIMIT_MAX_FILES='ulimit -n 65536'
+
