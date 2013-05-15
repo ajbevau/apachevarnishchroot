@@ -74,6 +74,15 @@ if [ -z "$PIDFILE" ] ; then
 	exit 2
 fi
 
+# Make sure the lock dir exists for the mutexes
+LOCK_DIR=$(. $APACHE_ENVVARS && echo $APACHE_LOCK_DIR)
+if [ ! -d $LOCK_DIR ]; then
+	echo "WARNING: APACHE_LOCK_DIR does not exist creating it..."
+	U=$(. $APACHE_ENVVARS && echo $APACHE_RUN_USER)
+	G=$(. $APACHE_ENVVARS && echo $APACHE_RUN_GROUP)
+	mkdir -p $LOCK_DIR
+	chown $U:$G $LOCK_DIR
+fi
 
 check_htcacheclean() {
 	[ "$HTCACHECLEAN_MODE" = "daemon" ] || return 1
