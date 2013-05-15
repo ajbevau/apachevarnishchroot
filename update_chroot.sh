@@ -244,6 +244,38 @@ for pammod in `locate *security/pam_*.so`; do
     cp -p $pammod $CHROOT_DIR/$pammod
 done
 
+# Do we need SSL certificates
+INSTALL_SSL="check"
+[[ -d $CHROOT_DIR/etc/ssl ]] && INSTALL_SSL="yes"
+if [[ "$INSTALL_SSL" == "check" ]]; then
+	cat << EOF
+
+QUESTION: Do you want the system SSL certificates copied into
+the chroot jail for this user? This is required if the users'
+scripts make HTTPS API requests.
+EOF
+	read -p "(yes/no) -> " INSTALL_SSL
+fi
+
+# If SSL is required then instal the certificates 
+if [[ "$INSTALL_SSL" == "yes" ]]; then
+	echo "Adding SSL certificates to the chroot jail"
+	mkdir -p $CHROOT_DIR/etc/ssl/certs
+	for c in `ls /etc/ssl/certs`; do
+		LNKFIL="$c"
+		[[ -L /etc/ssl/certs/$c ]] && \
+			LNKFIL=$(dirname `readlink /etc/ssl/certs/$c`)
+		if [[ "$LNKFIL" == "." ]]; then
+			# If is a local link copy as a link
+			cp -P /etc/ssl/certs/$c $CHROOT_DIR/etc/ssl/certs/
+		else
+			# Is a file or a non-local link so copy file
+			cp /etc/ssl/certs/$c $CHROOT_DIR/etc/ssl/certs/
+		fi
+	done
+fi
+
+
 # Don't give more permissions than necessary
 chown root:root ${CHROOT_DIR}/bin/su
 chmod 700 ${CHROOT_DIR}/bin/su
