@@ -58,8 +58,10 @@ CFLAGS="-O2 -pipe -fomit-frame-pointer" \
 echo "Compiling now..."
 if ( make >> ${LOG_FILE} ); then
 	echo "  ... success will now install to ${INSTALL_PATH}"
-	sudo make install >> ${LOG_FILE}
-	sudo chown -R root:root ${INSTALL_PATH}
+	read -p "Do you want to install? (yes/no) -> " DO_INSTALL
+	[[ "${DO_INSTALL}" == "yes" ]] && \
+		sudo make install >> ${LOG_FILE} && \
+		sudo chown -R root:root ${INSTALL_PATH}
 else
 	echo "  ... build failed please check errors above and ${LOG_FILE}"
 fi
