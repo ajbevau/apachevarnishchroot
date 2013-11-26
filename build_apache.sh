@@ -32,22 +32,37 @@
 INSTALL_PATH="/opt/apache24"
 LOG_FILE="/tmp/apache24build.log"
 
+# Make sure build path exists
 [[ ! -d $PWD/build ]] && mkdir -p $PWD/build
-
-# Move into the build directory and get the sources
-echo 
-echo "Fetching the Apache and APR sources"
-echo
 cd build
-git clone --branch 2.4.x https://github.com/apache/httpd httpd-2.4.x
-cd httpd-2.4.x
-git clone --branch 1.4.x https://github.com/apache/apr srclib/apr
-git clone --branch 1.5.x https://github.com/apache/apr-util srclib/apr-util
-# For Linux we don't need APR-ICONV but you would on Windows
 
-# Setup the configure scripts
-echo "Creating configuration scripts"
-./buildconf
+# Decide if we need to refetch the sources
+if [[ -d httpd-2.4.x ]]; then
+	echo "WARNING: Existing source files detected"
+	read -p "Do you want to redownload (yes) or just rebuild (no)? (yes/no) -> " DO_FETCH
+	[[ "${DO_FETCH}" == "yes" ]] && \
+		rm -rf httpd-2.4.x
+fi
+
+# If the sources don't exist fetch them
+if [[ ! -d httpd-2.4.x ]]; then
+	# Get the sources
+	echo 
+	echo "Fetching the Apache and APR sources"
+	echo
+	git clone --branch 2.4.x https://github.com/apache/httpd httpd-2.4.x
+	cd httpd-2.4.x
+	git clone --branch 1.5.x https://github.com/apache/apr srclib/apr
+	git clone --branch 1.5.x https://github.com/apache/apr-util srclib/apr-util
+	# For Linux we don't need APR-ICONV but you would on Windows
+
+	# Setup the configure scripts
+	echo "Creating configuration scripts"
+	./buildconf
+else
+	# Otherwise just jump into the source
+	cd httpd-2.4.x && make clean > /dev/null 2>&1
+fi
 
 # Do the configuration
 echo "Configuring Apache for build..."
