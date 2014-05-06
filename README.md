@@ -4,6 +4,8 @@ Andrew Bevitt <me@andrewbevitt.com>
 
 Read the [tutorial](http://andrewbevitt.com/tutorials/apache-varnish-chrooted-php-fpm-wordpress-virtual-host/) to learn how this all fits together.
 
+NOTE: This is no longer maintained! Ubuntu 14.04 LTS (Trusty Tahr) has Apache 2.4.7 built-in.
+
 The tutorial outlines how I configured an Ubuntu 12.04 LTS server to run:
 
 * Apache 2.4 with the Event MPM
