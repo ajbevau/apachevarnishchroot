@@ -52,6 +52,7 @@ if [[ ! -d httpd-2.4.x ]]; then
 	echo
 	git clone --branch 2.4.x https://github.com/apache/httpd httpd-2.4.x
 	cd httpd-2.4.x
+	git checkout -b build 2.4.9
 	git clone --branch 1.5.x https://github.com/apache/apr srclib/apr
 	git clone --branch 1.5.x https://github.com/apache/apr-util srclib/apr-util
 	# For Linux we don't need APR-ICONV but you would on Windows
