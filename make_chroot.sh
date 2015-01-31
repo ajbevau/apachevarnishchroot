@@ -118,7 +118,7 @@ And the ImageMagick commands:
   /usr/bin/montage
   /usr/bin/mogrify
 
-Do you want ImageMagick setup in this user's chroot?
+Do you want ImageMagick setup in this user’s chroot?
 EOF
 read -p "(yes/no) -> " INSTALL_IM
 
