@@ -612,7 +612,7 @@ elif [ "$1" == "wordpress" ]; then
 	cat << EOF
 
 === WORDPRESS INSTALL ===
-You're about to install WordPress into:
+You’re about to install WordPress into:
   $INSTALL_PATH
 
 A mysql user '$username' will be created with all privileges for database '$dbname'
